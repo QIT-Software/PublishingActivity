@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "HomePage";
+}
+
+@section Body{
+    
+    @if (User.Identity.IsAuthenticated &&  User.IsInRole("deleted"))
+    {
+        <div class="starter-template">
+            <h1 class="text-danger">Ваш аккаунт видалено або обмежено доступ до нього</h1>
+        </div>
+    }
+    else
+    {
+        <div class="starter-template">
+            <h1>Ласкаво просимо</h1>
+            <p class="lead">Це сервіс моніторингу публікаційної активності викладачів університету</p>
+            <a href="@Url.Action("Publications", "Publication")" class="btn btn-outline-warning"><b>Подивитись мої публікації</b></a>
+        </div>
+    }
+}

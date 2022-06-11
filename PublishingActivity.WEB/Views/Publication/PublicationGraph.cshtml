@@ -1,0 +1,33 @@
+﻿@model PublishingActivity.WEB.Models.GraphVM
+
+@{
+    ViewBag.Title = "PublicationGraph";
+}
+
+@section Body{
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                exportEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Публікаційна активність"
+                },
+                data: [{
+                    type: "column",
+                    dataPoints: [
+                        @for (int i = 0; i < Model.Items.Count; i++)
+                        {
+                            @("{ y:" + Model.Items.ElementAt(i).Value + "," + "label:" + Model.Items.ElementAt(i).Key + " },");
+                        }
+                    ]
+                }]
+            });
+            chart.render();
+        }
+    </script>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+}
+

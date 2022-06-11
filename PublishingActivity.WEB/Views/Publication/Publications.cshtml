@@ -1,0 +1,44 @@
+﻿@model PublishingActivity.WEB.Models.IndexViewModel<PublicationViewModel>
+@using PublishingActivity.WEB.Models.PublicationVM
+
+@{
+    ViewBag.Title = "Publications";
+}
+
+
+@section Body{
+
+    <h2>Публікації</h2>
+    <div class="row">
+        @if (Model.Items.Count() == 0)
+        {
+            <h3>Поки що немає публікацій</h3>
+        }
+        @foreach (var publication in Model.Items)
+        {
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            @publication.Subject
+                        </h5>
+                        <p class="card-text">@publication.CoAuthors</p>
+                        <p class="card-text">@publication.LocationAndDate</p>
+                        <p class="card-text">@publication.Pages</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a>@publication.ProfessorName, @publication.Year</a>
+
+                        <h2>
+                            <a href="@Url.Action("EditPublication", "Publication", new { id = publication.Id })" class="btn btn-info">Редагувати</a>
+                            <a href="@Url.Action("DeletePublication", "Publication", new { id = publication.Id })" class="btn btn-danger">Видалити</a>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+}

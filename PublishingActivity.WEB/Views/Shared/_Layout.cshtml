@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - PAS</title>
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css/Site.css")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+<header class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top mb-4">
+    <div class="container">
+        @Html.ActionLink("Сервіс моніторингу публікаційної активності", "Index", "Home", null, new { @class = "navbar-brand" })
+        @if (User.IsInRole("admin"))
+        {
+            <a href="@Url.Action("GetTodayLog", "Home")"><b class="nav-link navbar-text">Адміністратор</b></a>
+        }
+        @if (User.IsInRole("user"))
+        {
+            <b class="nav-link navbar-text">Викладач</b>
+        }
+        @if (User.IsInRole("deleted"))
+        {
+            <b class="nav-link text-danger">Заблокований</b>
+        }
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Публікації
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="@Url.Action("Publications", "Publication")">Переглянути всі публікації</a>
+                            <a class="dropdown-item" href="@Url.Action("AddPublication", "Publication")">Додати публікацію</a>
+                            <a class="dropdown-item" href="@Url.Action("PublicationGraph", "Publication")">Переглянути графік публікаційної активності</a>
+                            <a class="dropdown-item" href="@Url.Action("GetCSV", "Publication")">Завантажити всі публікації у .csv форматі</a>
+                        </div>
+                    </div>
+                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Увійти", "Login", "Account", null, new {@class = "nav-link"})</li>
+                    <li>@Html.ActionLink("Зареєструватись", "Register", "Account", null, new {@class = "nav-link"})</li>
+                }
+                else
+                {
+                    <li>
+                        <li>
+                            <p class="navbar-text">@User.Identity.Name</p></li>
+                    </li>
+                    <li>@Html.ActionLink("Вийти", "Logout", "Account", null, new {@class = "nav-link"}) </li>
+                }
+            </ul>
+        </div>
+    </div>
+</header>
+<main id="main" class="container pt-5 lg-6 mb-4">
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                @RenderSection("Body")
+
+
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer mt-auto py-3">
+    <div class="container inner">
+        <p class="float-right"><a href="#">Повернутись вгору</a></p>
+        <p>&copy; @DateTime.Now.Year - Publication Activity Service.</p>
+    </div>
+</footer>
+
+
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+</body>
+</html>
